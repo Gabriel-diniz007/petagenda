@@ -1,0 +1,36 @@
+<%- include('../partials/header', { titulo: 'Pets' }) %>
+
+<div class="titulo-secao">
+  <h1>Pets</h1>
+  <a href="/pets/novo" class="botao">+ Novo pet</a>
+</div>
+
+<% if (pets.length === 0) { %>
+  <p class="vazio">Nenhum pet cadastrado.</p>
+<% } else { %>
+  <div class="tabela-wrap">
+  <table>
+    <thead><tr><th>Nome</th><th>Espécie</th><th>Raça</th><th>Porte</th><th>Idade</th><th>Tutor</th><th>Ações</th></tr></thead>
+    <tbody>
+    <% pets.forEach(function (p) { %>
+      <tr>
+        <td><%= p.nome %></td>
+        <td><%= p.especie %></td>
+        <td><%= p.raca || 'SRD' %></td>
+        <td><%= p.porte %></td>
+        <td><%= p.idade() !== null ? p.idade() + ' ano(s)' : '-' %></td>
+        <td><a href="/clientes/<%= p.clienteId %>"><%= p.dono %></a></td>
+        <td class="acoes">
+          <a href="/pets/<%= p.id %>/editar" class="botao pequeno cinza">Editar</a>
+          <form method="post" action="/pets/<%= p.id %>/excluir" onsubmit="return confirm('Excluir este pet e o histórico de atendimentos dele?')">
+            <button class="botao pequeno vermelho">Excluir</button>
+          </form>
+        </td>
+      </tr>
+    <% }) %>
+    </tbody>
+  </table>
+  </div>
+<% } %>
+
+<%- include('../partials/footer') %>

@@ -1,0 +1,31 @@
+<% const c = cliente || {}; const editando = !!c.id; %>
+<%- include('../partials/header', { titulo: editando ? 'Editar cliente' : 'Novo cliente' }) %>
+
+<h1><%= editando ? 'Editar cliente' : 'Novo cliente' %></h1>
+<%- include('../partials/erros', { erros }) %>
+
+<form method="post" action="<%= editando ? '/clientes/' + c.id + '/editar' : '/clientes/novo' %>" class="form">
+  <label>Nome completo *
+    <input type="text" name="nome" value="<%= c.nome || '' %>" required>
+  </label>
+  <div class="linha">
+    <label>CPF
+      <input type="text" name="cpf" value="<%= c.cpf || '' %>" placeholder="000.000.000-00">
+    </label>
+    <label>Telefone *
+      <input type="text" name="telefone" value="<%= c.telefone || '' %>" placeholder="(43) 99999-9999" required>
+    </label>
+  </div>
+  <label>E-mail
+    <input type="email" name="email" value="<%= c.email || '' %>">
+  </label>
+  <label>Endereço
+    <input type="text" name="endereco" value="<%= c.endereco || '' %>">
+  </label>
+  <div class="botoes">
+    <button class="botao">Salvar</button>
+    <a href="/clientes" class="botao cinza">Cancelar</a>
+  </div>
+</form>
+
+<%- include('../partials/footer') %>

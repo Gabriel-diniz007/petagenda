@@ -1,0 +1,28 @@
+<% const s = servico || {}; const editando = !!s.id; %>
+<%- include('../partials/header', { titulo: editando ? 'Editar serviço' : 'Novo serviço' }) %>
+
+<h1><%= editando ? 'Editar serviço' : 'Novo serviço' %></h1>
+<%- include('../partials/erros', { erros }) %>
+
+<form method="post" action="<%= editando ? '/servicos/' + s.id + '/editar' : '/servicos/novo' %>" class="form">
+  <label>Nome *
+    <input type="text" name="nome" value="<%= s.nome || '' %>" required>
+  </label>
+  <label>Descrição
+    <textarea name="descricao" rows="3"><%= s.descricao || '' %></textarea>
+  </label>
+  <div class="linha">
+    <label>Preço (R$) *
+      <input type="number" name="preco" step="0.01" min="0" value="<%= s.preco !== undefined ? s.preco : '' %>" required>
+    </label>
+    <label>Duração (minutos) *
+      <input type="number" name="duracao_min" min="5" step="5" value="<%= s.duracaoMin || 30 %>" required>
+    </label>
+  </div>
+  <div class="botoes">
+    <button class="botao">Salvar</button>
+    <a href="/servicos" class="botao cinza">Cancelar</a>
+  </div>
+</form>
+
+<%- include('../partials/footer') %>

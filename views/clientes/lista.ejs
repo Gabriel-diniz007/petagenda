@@ -1,0 +1,40 @@
+<%- include('../partials/header', { titulo: 'Clientes' }) %>
+
+<div class="titulo-secao">
+  <h1>Clientes</h1>
+  <a href="/clientes/novo" class="botao">+ Novo cliente</a>
+</div>
+
+<form method="get" class="filtro">
+  <input type="text" name="busca" value="<%= busca %>" placeholder="Buscar por nome ou telefone">
+  <button class="botao cinza">Buscar</button>
+  <% if (busca) { %><a href="/clientes" class="link">limpar</a><% } %>
+</form>
+
+<% if (clientes.length === 0) { %>
+  <p class="vazio">Nenhum cliente encontrado.</p>
+<% } else { %>
+  <div class="tabela-wrap">
+  <table>
+    <thead><tr><th>Nome</th><th>Telefone</th><th>E-mail</th><th>Pets</th><th>Ações</th></tr></thead>
+    <tbody>
+    <% clientes.forEach(function (c) { %>
+      <tr>
+        <td><a href="/clientes/<%= c.id %>"><%= c.nome %></a></td>
+        <td><%= c.telefone %></td>
+        <td><%= c.email || '-' %></td>
+        <td><%= c.qtdPets %></td>
+        <td class="acoes">
+          <a href="/clientes/<%= c.id %>/editar" class="botao pequeno cinza">Editar</a>
+          <form method="post" action="/clientes/<%= c.id %>/excluir" onsubmit="return confirm('Deseja excluir este cliente?')">
+            <button class="botao pequeno vermelho">Excluir</button>
+          </form>
+        </td>
+      </tr>
+    <% }) %>
+    </tbody>
+  </table>
+  </div>
+<% } %>
+
+<%- include('../partials/footer') %>

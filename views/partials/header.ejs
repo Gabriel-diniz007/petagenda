@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= typeof titulo !== 'undefined' ? titulo + ' | ' : '' %>PetAgenda</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <aside class="menu">
+    <a href="/" class="marca">🐾 PetAgenda</a>
+    <nav>
+      <a href="/" class="<%= paginaAtual === 'inicio' ? 'ativo' : '' %>">Início</a>
+      <a href="/agendamentos" class="<%= paginaAtual === 'agendamentos' ? 'ativo' : '' %>">Agendamentos</a>
+      <a href="/clientes" class="<%= paginaAtual === 'clientes' ? 'ativo' : '' %>">Clientes</a>
+      <a href="/pets" class="<%= paginaAtual === 'pets' ? 'ativo' : '' %>">Pets</a>
+      <a href="/servicos" class="<%= paginaAtual === 'servicos' ? 'ativo' : '' %>">Serviços</a>
+    </nav>
+    <small class="rodape-menu">Desenvolvimento de Projetos II<br>UniFil</small>
+  </aside>
+
+  <main class="conteudo">
+    <% if (msgOk) { %><div class="aviso ok"><%= msgOk %></div><% } %>
+    <% if (msgErro) { %><div class="aviso erro"><%= msgErro %></div><% } %>

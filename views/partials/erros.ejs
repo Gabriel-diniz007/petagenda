@@ -1,0 +1,8 @@
+<% if (erros && erros.length) { %>
+  <div class="aviso erro">
+    <strong>Corrija os campos abaixo:</strong>
+    <ul>
+      <% erros.forEach(function (e) { %><li><%= e %></li><% }) %>
+    </ul>
+  </div>
+<% } %>

@@ -1,0 +1,37 @@
+<%- include('../partials/header', { titulo: cliente.nome }) %>
+
+<div class="titulo-secao">
+  <h1><%= cliente.nome %></h1>
+  <a href="/clientes/<%= cliente.id %>/editar" class="botao cinza">Editar dados</a>
+</div>
+
+<div class="ficha">
+  <p><strong>CPF:</strong> <%= cliente.cpf || '-' %></p>
+  <p><strong>Telefone:</strong> <%= cliente.telefone %></p>
+  <p><strong>E-mail:</strong> <%= cliente.email || '-' %></p>
+  <p><strong>Endereço:</strong> <%= cliente.endereco || '-' %></p>
+</div>
+
+<div class="titulo-secao">
+  <h2>Pets deste cliente</h2>
+  <a href="/pets/novo?cliente=<%= cliente.id %>" class="botao">+ Adicionar pet</a>
+</div>
+
+<% if (pets.length === 0) { %>
+  <p class="vazio">Nenhum pet cadastrado para esse cliente.</p>
+<% } else { %>
+  <div class="cards-pet">
+  <% pets.forEach(function (p) { %>
+    <div class="card-pet">
+      <strong><%= p.especie === 'Gato' ? '🐱' : (p.especie === 'Cachorro' ? '🐶' : '🐾') %> <%= p.nome %></strong>
+      <span><%= p.raca || 'SRD' %> · porte <%= p.porte %></span>
+      <% if (p.idade() !== null) { %><span><%= p.idade() %> ano(s)</span><% } %>
+      <a href="/agendamentos/novo?pet=<%= p.id %>" class="link">agendar</a>
+    </div>
+  <% }) %>
+  </div>
+<% } %>
+
+<p><a href="/clientes" class="link">&larr; voltar para clientes</a></p>
+
+<%- include('../partials/footer') %>

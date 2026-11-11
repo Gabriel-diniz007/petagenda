@@ -1,0 +1,49 @@
+<% const p = pet || {}; const editando = !novo; %>
+<%- include('../partials/header', { titulo: editando ? 'Editar pet' : 'Novo pet' }) %>
+
+<h1><%= editando ? 'Editar pet' : 'Novo pet' %></h1>
+<%- include('../partials/erros', { erros }) %>
+
+<form method="post" action="<%= editando ? '/pets/' + p.id + '/editar' : '/pets/novo' %>" class="form">
+  <label>Tutor (cliente) *
+    <select name="cliente_id" required>
+      <option value="">Selecione...</option>
+      <% clientes.forEach(function (c) { %>
+        <option value="<%= c.id %>" <%= p.clienteId === c.id ? 'selected' : '' %>><%= c.nome %></option>
+      <% }) %>
+    </select>
+  </label>
+  <label>Nome do pet *
+    <input type="text" name="nome" value="<%= p.nome || '' %>" required>
+  </label>
+  <div class="linha">
+    <label>Espécie *
+      <select name="especie">
+        <% ['Cachorro', 'Gato', 'Outro'].forEach(function (e) { %>
+          <option <%= p.especie === e ? 'selected' : '' %>><%= e %></option>
+        <% }) %>
+      </select>
+    </label>
+    <label>Raça
+      <input type="text" name="raca" value="<%= p.raca || '' %>" placeholder="deixe vazio se for SRD">
+    </label>
+  </div>
+  <div class="linha">
+    <label>Porte *
+      <select name="porte">
+        <option value="P" <%= p.porte === 'P' ? 'selected' : '' %>>Pequeno</option>
+        <option value="M" <%= !p.porte || p.porte === 'M' ? 'selected' : '' %>>Médio</option>
+        <option value="G" <%= p.porte === 'G' ? 'selected' : '' %>>Grande</option>
+      </select>
+    </label>
+    <label>Data de nascimento
+      <input type="date" name="nascimento" value="<%= p.nascimento || '' %>">
+    </label>
+  </div>
+  <div class="botoes">
+    <button class="botao">Salvar</button>
+    <a href="/pets" class="botao cinza">Cancelar</a>
+  </div>
+</form>
+
+<%- include('../partials/footer') %>
