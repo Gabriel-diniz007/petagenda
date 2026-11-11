@@ -1,0 +1,59 @@
+<%- include('../partials/header', { titulo: 'Agendamentos' }) %>
+
+<div class="titulo-secao">
+  <h1>Agendamentos</h1>
+  <a href="/agendamentos/novo" class="botao">+ Novo agendamento</a>
+</div>
+
+<form method="get" class="filtro">
+  <input type="date" name="data" value="<%= filtros.data %>">
+  <select name="status">
+    <option value="">Todos os status</option>
+    <% statusLista.forEach(function (st) { %>
+      <option value="<%= st %>" <%= filtros.status === st ? 'selected' : '' %>><%= st %></option>
+    <% }) %>
+  </select>
+  <button class="botao cinza">Filtrar</button>
+  <% if (filtros.data || filtros.status) { %><a href="/agendamentos" class="link">limpar</a><% } %>
+</form>
+
+<% if (agendamentos.length === 0) { %>
+  <p class="vazio">Nenhum agendamento encontrado.</p>
+<% } else { %>
+  <div class="tabela-wrap">
+  <table>
+    <thead><tr><th>Data</th><th>Hora</th><th>Pet</th><th>Tutor</th><th>Serviço</th><th>Valor</th><th>Status</th><th>Ações</th></tr></thead>
+    <tbody>
+    <% agendamentos.forEach(function (a) { %>
+      <tr>
+        <td><%= dataBR(a.data) %></td>
+        <td><%= a.hora %></td>
+        <td><%= a.petNome %></td>
+        <td><%= a.clienteNome %></td>
+        <td><%= a.servicoNome %></td>
+        <td><%= moeda(a.valor) %></td>
+        <td><span class="status <%= a.status.toLowerCase() %>"><%= a.status %></span></td>
+        <td class="acoes">
+          <% if (a.status === 'AGENDADO') { %>
+            <form method="post" action="/agendamentos/<%= a.id %>/status">
+              <input type="hidden" name="status" value="CONCLUIDO">
+              <button class="botao pequeno verde" title="Marcar como concluído">✔</button>
+            </form>
+            <form method="post" action="/agendamentos/<%= a.id %>/status" onsubmit="return confirm('Cancelar este agendamento?')">
+              <input type="hidden" name="status" value="CANCELADO">
+              <button class="botao pequeno laranja" title="Cancelar">✖</button>
+            </form>
+          <% } %>
+          <a href="/agendamentos/<%= a.id %>/editar" class="botao pequeno cinza">Editar</a>
+          <form method="post" action="/agendamentos/<%= a.id %>/excluir" onsubmit="return confirm('Excluir este agendamento?')">
+            <button class="botao pequeno vermelho">Excluir</button>
+          </form>
+        </td>
+      </tr>
+    <% }) %>
+    </tbody>
+  </table>
+  </div>
+<% } %>
+
+<%- include('../partials/footer') %>

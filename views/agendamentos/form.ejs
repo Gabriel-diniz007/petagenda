@@ -1,0 +1,50 @@
+<% const a = agendamento || {}; const editando = !!a.id; %>
+<%- include('../partials/header', { titulo: editando ? 'Editar agendamento' : 'Novo agendamento' }) %>
+
+<h1><%= editando ? 'Editar agendamento' : 'Novo agendamento' %></h1>
+<%- include('../partials/erros', { erros }) %>
+
+<form method="post" action="<%= editando ? '/agendamentos/' + a.id + '/editar' : '/agendamentos/novo' %>" class="form">
+  <label>Pet *
+    <select name="pet_id" required>
+      <option value="">Selecione...</option>
+      <% pets.forEach(function (p) { %>
+        <option value="<%= p.id %>" <%= a.petId === p.id ? 'selected' : '' %>><%= p.nome %> (<%= p.dono %>)</option>
+      <% }) %>
+    </select>
+  </label>
+  <label>Serviço *
+    <select name="servico_id" required>
+      <option value="">Selecione...</option>
+      <% servicos.forEach(function (s) { %>
+        <option value="<%= s.id %>" <%= a.servicoId === s.id ? 'selected' : '' %>><%= s.nome %> - <%= moeda(s.preco) %></option>
+      <% }) %>
+    </select>
+  </label>
+  <div class="linha">
+    <label>Data *
+      <input type="date" name="data" value="<%= a.data || '' %>" required>
+    </label>
+    <label>Hora *
+      <input type="time" name="hora" value="<%= a.hora || '' %>" min="08:00" max="18:00" required>
+    </label>
+    <% if (editando) { %>
+    <label>Status
+      <select name="status">
+        <% statusLista.forEach(function (st) { %>
+          <option <%= a.status === st ? 'selected' : '' %>><%= st %></option>
+        <% }) %>
+      </select>
+    </label>
+    <% } %>
+  </div>
+  <label>Observações
+    <textarea name="observacao" rows="2" placeholder="ex: pet bravo, alergia a shampoo..."><%= a.observacao || '' %></textarea>
+  </label>
+  <div class="botoes">
+    <button class="botao">Salvar</button>
+    <a href="/agendamentos" class="botao cinza">Cancelar</a>
+  </div>
+</form>
+
+<%- include('../partials/footer') %>

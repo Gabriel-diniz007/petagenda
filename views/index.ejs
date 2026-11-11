@@ -1,0 +1,49 @@
+<%- include('partials/header', { titulo: 'Início' }) %>
+
+<h1>Olá! Agenda de hoje <span class="sub">(<%= dataBR(hoje) %>)</span></h1>
+
+<div class="indicadores">
+  <div class="indicador"><span>Clientes</span><strong><%= totalClientes %></strong></div>
+  <div class="indicador"><span>Pets cadastrados</span><strong><%= totalPets %></strong></div>
+  <div class="indicador"><span>Agendamentos em aberto</span><strong><%= pendentes %></strong></div>
+  <div class="indicador verde"><span>Faturado no mês</span><strong><%= moeda(faturamento) %></strong></div>
+</div>
+
+<div class="titulo-secao">
+  <h2>Atendimentos de hoje</h2>
+  <a href="/agendamentos/novo" class="botao">+ Novo agendamento</a>
+</div>
+
+<% if (agendaHoje.length === 0) { %>
+  <p class="vazio">Nenhum atendimento marcado para hoje.</p>
+<% } else { %>
+  <div class="tabela-wrap">
+  <table>
+    <thead>
+      <tr><th>Hora</th><th>Pet</th><th>Tutor</th><th>Serviço</th><th>Status</th><th></th></tr>
+    </thead>
+    <tbody>
+    <% agendaHoje.forEach(function (a) { %>
+      <tr>
+        <td><strong><%= a.hora %></strong></td>
+        <td><%= a.petNome %> <small>(<%= a.especie %>)</small></td>
+        <td><%= a.clienteNome %><br><small><%= a.telefone %></small></td>
+        <td><%= a.servicoNome %></td>
+        <td><span class="status <%= a.status.toLowerCase() %>"><%= a.status %></span></td>
+        <td class="acoes">
+          <% if (a.status === 'AGENDADO') { %>
+            <form method="post" action="/agendamentos/<%= a.id %>/status">
+              <input type="hidden" name="status" value="CONCLUIDO">
+              <input type="hidden" name="voltar" value="inicio">
+              <button class="botao pequeno verde">Concluir</button>
+            </form>
+          <% } %>
+        </td>
+      </tr>
+    <% }) %>
+    </tbody>
+  </table>
+  </div>
+<% } %>
+
+<%- include('partials/footer') %>
