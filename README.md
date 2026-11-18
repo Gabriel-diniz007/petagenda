@@ -61,9 +61,5 @@ petagenda/
 └── docs/                 # documentação, diagramas e prints
 ```
 
-## Documentação
 
-- [Parte I - Documentação e modelagem (PDF)](docs/PetAgenda_Parte1_Documentacao.pdf)
-- [Parte II - Implementação (PDF)](docs/PetAgenda_Parte2_Implementacao.pdf)
-- Diagramas separados em [`docs/diagramas`](docs/diagramas) (caso de uso, DER, atividade, classes e sequência)
-- Prints das telas em [`docs/telas`](docs/telas)
+
